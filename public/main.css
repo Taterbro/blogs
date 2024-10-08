@@ -1,0 +1,70 @@
+.stuff {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.stuff form {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttdiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.blogcont {
+    display: flex;
+    flex-direction: column;
+}
+
+.blogitem {
+    border: 2px solid black;
+    width: 50vw;
+    padding: 10px;
+}
+
+.blogitem a {
+    text-decoration: none;
+    color: black;
+}
+
+.bloginfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.inf {
+    width: 80vw;
+    border: 2px solid black;
+}
+
+.subbox {
+    width: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 10px;
+}
+
+.mysubbox {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 10px;
+}
+
+.postform {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    align-items: center;
+    margin: 7px;
+}
+.postform button {
+    width: 20%;
+}
