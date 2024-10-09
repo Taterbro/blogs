@@ -16,7 +16,7 @@
         <div class="mysubbox">
           <p class="sub">date: {{$post['date']}}</p>
           <div class="buttdiv">
-            <form action="{{route('deleteblog',['id'=>$post['id']])}}" method="post">
+            <form action="{{route('deleteblog',['blog'=>$post['id']])}}" method="post">
               {{csrf_field()}}
               @method('DELETE')
               <button type="submit" onclick="return confirm('are you sure you want to delete this?')">delete blog</button>

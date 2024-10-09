@@ -1,32 +1,3 @@
 {
-  "blogs": [
-    {
-      "id": "1",
-      "title": "stuff be stuffing",
-      "body": "lorem sd;laf af;os jfoajoif al falfoaje l asfoasjdfjs faejo foi",
-      "author": "some guy",
-      "date": "some date idk"
-    },
-    {
-      "id": "2",
-      "title": "poopy butthole",
-      "body": "we will make it out the hood inshallah. The trenches wll not silence us. WE SHALL BE FREEEEEEEEEEEEE",
-      "author": "some other guy",
-      "date": "some other date idk"
-    },
-    {
-      "id": "33ad",
-      "title": "another blog",
-      "body": "tato man be geeking tf out fr",
-      "author": "brotato",
-      "date": "2024-10-07 11:20:57"
-    },
-    {
-      "id": "ca2e",
-      "title": "one more",
-      "body": "lets go get it fr",
-      "author": "brotato",
-      "date": "2024-10-07 11:33:47"
-    }
-  ]
+    "blogs": []
 }

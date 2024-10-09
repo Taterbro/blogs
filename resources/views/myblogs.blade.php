@@ -13,7 +13,7 @@
         
            @foreach($myposts as $post)
         <div class="blogitem">
-          <a href="{{route('bloginfo',['id' => $post['id']])}}">
+          <a href="{{route('bloginfo',['blog' => $post['id']])}}">
             <h3>{{$post['title']}}</h3>
             <p class="sub">uploaded: {{$post['date']}}</p>
           </a>

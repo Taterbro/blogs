@@ -12,10 +12,11 @@
       <div class="blogcont">
         @foreach($posts as $post)
         <div class="blogitem">
-          <a href="{{route('bloginfo',['id'=> $post['id']])}}">
+          <a href="{{route('bloginfo',['blog'=> $post['id']])}}">
             <h3>{{$post['title']}}</h3>
             <p class="sub">by: {{$post['author']}}</p>
             <p class="sub">uploaded: {{$post['date']}}</p>
+            <p class="sub">id: {{$post['id']}}</p>
           </a>
         </div>
         @endforeach

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\blogs;
 
 class blogcontrol extends Controller
 {
@@ -13,7 +14,7 @@ class blogcontrol extends Controller
         if (!Auth::check()){
             return redirect('/');
         }
-        $posts = Http::get('http://localhost:3000/blogs')->json();
+        $posts = blogs::all();
         return view('mainPage', ['posts'=>$posts, ]);
     }
 
@@ -21,52 +22,42 @@ class blogcontrol extends Controller
         if (!Auth::check()){
             return redirect('/');
         }
-        $posts = Http::get('http://localhost:3000/blogs')->json();
-        $myposts = [];
-        for ($i=0;$i<count($posts);$i++){
-            if ($posts[$i]['author'] == Auth::user()->name){
-                $myposts[] = $posts[$i];
-            }
-        }
-        return view('myblogs',['myposts' => $myposts]);
+        $posts = blogs::where('user_id', Auth::id())->get();
+        return view('myblogs',['myposts' => $posts]);
     }
 
     public function addblog(Request $request)  {
+        $author = Auth::user()->name;
+        $date = Carbon::now()->toDateTimeString();
+
         $data = $request->validate([
             'title' => 'required',
             'body' => 'required'
         ]);
-        $author = Auth::user()->name;
-        $date = Carbon::now()->toDateTimeString();
-        $response = Http::post('http://localhost:3000/blogs', [
-            'title' => $data['title'],
-            'body' => $data['body'],
-            'author' => $author,
-            'date' => $date
-        ]);
-        if ($response->successful()){
+        $data['title'] = strip_tags($data['title']);
+        $data['body'] = strip_tags($data['body']);
+        $data['user_id'] = Auth::id();
+        $data['date'] = $date;
+        $data['author'] = $author;
+        blogs::create($data);
+
             return redirect('/myblogs');
         }
-        else{
-            return response()->json(['message'=>'failed to add post.'], $response->status());
+     
+    public function bloginfo(blogs $blog){
+        if ($blog['user_id'] == Auth::id()){
+            return view('mybloginfo', ['post' => $blog]);
         }
-    }
-    public function bloginfo($id){
-        $post =  Http::get("http://localhost:3000/blogs/{$id}")->json();
-        if ($post['author'] == Auth::user()->name){
-            return view('mybloginfo', ['post' => $post]);
-        }
-        return view('bloginfo', ['post'=> $post]);
+        return view('bloginfo', ['post'=> $blog]);
 
     }
-    public function deleteblog($id){
-        $post =  Http::get("http://localhost:3000/blogs/{$id}")->json(); //just doing this to check for author name
-        if(Auth::user()->name != $post['author']){
+    public function deleteblog(blogs $blog){
+        if($blog['author'] = Auth::id()){
+            $blog->delete();
             return redirect('/blogs');
         }
         else{
-            $response=Http::delete("http://localhost:3000/blogs/{$id}")->json();
-            return redirect('/myblogs');
+            return redirect('/blogs');
         
         }
         
