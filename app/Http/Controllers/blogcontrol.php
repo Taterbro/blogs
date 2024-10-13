@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\blogs;
+use App\Models\comments;
+use App\Models\likes;
 
 class blogcontrol extends Controller
 {
@@ -45,10 +47,11 @@ class blogcontrol extends Controller
         }
      
     public function bloginfo(blogs $blog){
+        $comments = comments::where('blogs_id', $blog->id)->get();
         if ($blog['user_id'] == Auth::id()){
             return view('mybloginfo', ['post' => $blog]);
         }
-        return view('bloginfo', ['post'=> $blog]);
+        return view('bloginfo', ['post'=> $blog, 'comments'=>$comments]);
 
     }
     public function deleteblog(blogs $blog){
@@ -62,6 +65,38 @@ class blogcontrol extends Controller
         }
         
         }
+    public function comment(Request $request, blogs $blog){
+        $id = $blog['id'];
+        $data = $request->validate([
+            'comment' => 'required'
+        ]);
+        $comment = new comments;
+        $comment->comment = $data['comment'];
+        $comment->user_id = Auth::id();
+        $comment->blogs_id = $id;
+        $comment->written_by = Auth::user()->name;
+        $comment->save();
+        return redirect("/bloginfo/{$id}",);
+    }
+    public function editcomment(comments $comment){
+        if(Auth::id() != $comment['user_id']){
+            return redirect()->back();
+        }
+        return view('editcomment', ['comment'=>$comment]);
+    }
+    public function actuallyEdit(Request $request, comments $comment){
+        if(Auth::id() != $comment['user_id']){
+            return redirect()->back();
+        }
+        $data = $request->validate([
+            'comment' => 'required'
+        ]);
+        $comment->update(['comment'=>$data['comment']]);
+        return redirect()->back()->with('message', 'comment edit successful');
+    }
+    
+        
+}
     
 
-}
+

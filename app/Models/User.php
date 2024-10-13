@@ -49,4 +49,13 @@ class User extends Authenticatable
     public function blogOwner(){
         return $this->hasMany(blogs::class, 'user_id');
     }
+    public function comment(){
+        return $this->hasMany(comments::class, 'user_id');
+    }
+    public function blogsliked(){
+        return $this->belongsToMany(blogs::class, 'likes')->withTimestamps();
+    }
+    public function unlike($blogid){
+        return $this->blogsliked()->detach($blogid);
+    }
 }
